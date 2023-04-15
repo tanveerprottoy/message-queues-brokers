@@ -1,6 +1,6 @@
 import express from "express";
 import usersRepository from "./users-repository";
-import elasticsearchService from "../kafka/kafka-service";
+import kafkaService from "../kafka/kafka-service";
 import { ResponseUtils } from "../../utils/response-utils";
 import { HttpCodes } from "../../utils/constants";
 import DbUtils from "../../libs/mongodb/db-utils";
@@ -19,7 +19,7 @@ class UsersService {
             ...filtered
         } = data;
         console.log("filtered: ", filtered)
-        const result1 = await elasticsearchService.create(filtered);
+        const result1 = await kafkaService.send(filtered);
         return ResponseUtils.respond(
             HttpCodes.HTTP_201,
             ResponseUtils.buildData(result.insertedId.toString()),
@@ -41,17 +41,6 @@ class UsersService {
             HttpCodes.HTTP_200,
             ResponseUtils.buildData(docs),
             res,
-        );
-    };
-
-    search = async (
-        text: string,
-        res: express.Response,
-    ): Promise<any> => {
-        return ResponseUtils.respond(
-            HttpCodes.HTTP_200,
-            ResponseUtils.buildData(await elasticsearchService.search(text)),
-            res
         );
     };
 }

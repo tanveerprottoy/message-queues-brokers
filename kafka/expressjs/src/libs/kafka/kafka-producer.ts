@@ -5,7 +5,11 @@ import { KafkaClientInstance } from "./kafka-client";
 export class KafkaProducer {
     producer: Producer
 
-    async init(config: ProducerConfig) {
+    async init(config?: ProducerConfig) {
+        if(!config) {
+            this.producer = KafkaClientInstance.kafka.producer();
+            return;
+        }
         this.producer = KafkaClientInstance.kafka.producer(config);
     }
 

@@ -18,13 +18,6 @@ class UsersController {
         const page = 1;
         return await usersService.readMany(limit, page, res);
     };
-
-    search = async (
-        req: express.Request,
-        res: express.Response,
-    ): Promise<express.Response> => {
-        return await usersService.search(req.query.text.toString(), res);
-    };
 }
 
 export default new UsersController;

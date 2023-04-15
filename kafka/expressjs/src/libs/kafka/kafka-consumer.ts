@@ -1,4 +1,4 @@
-import { Consumer, ConsumerConfig, ConsumerRunConfig, ConsumerSubscribeTopic, ConsumerSubscribeTopics, Producer, ProducerBatch, ProducerConfig, ProducerRecord, RecordMetadata } from 'kafkajs';
+import { Consumer, ConsumerConfig, ConsumerRunConfig, ConsumerSubscribeTopics } from 'kafkajs';
 import { ErrorUtils } from "../../utils/error-utils";
 import { KafkaClientInstance } from "./kafka-client";
 
@@ -46,11 +46,15 @@ export class KafkaConsumer {
                             console.log({value: message.value.toString()})
                     },  
      */
-    async read(config: ConsumerRunConfig) {
+    async run(config: ConsumerRunConfig) {
         try {
             await this.consumer.run(config);
         }
         catch(e) {
+            /* if(e instanceof Consumer.TooManyRequestsError) {
+                this.consumer.pause([{ topic }])
+                setTimeout(() => consumer.resume([{ topic }]), e.retryAfter * 1000)
+            } */
             ErrorUtils.throwError(e);
         }
     }
