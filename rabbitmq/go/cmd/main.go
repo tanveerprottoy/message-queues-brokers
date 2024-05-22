@@ -1,13 +1,8 @@
 package main
 
-import "txp/rabbitmq/app"
+import "txp/rabbitmq/rabbitmq"
 
 func main() {
-	app.Send()
-	app.Receive()
-}
-
-// Multiply just to check unit test
-func Multiply() int {
-	return 25 * 4
+	rabbitmq.Send()
+	rabbitmq.Receive()
 }
